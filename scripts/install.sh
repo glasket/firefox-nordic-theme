@@ -31,7 +31,7 @@ mkdir -p chrome
 cd chrome
 
 # Copy theme repo inside
-echo "Coping repo in $PWD"
+echo "Copying repo in $PWD"
 cp -R $THEMEDIRECTORY $PWD
 
 # Create single-line user CSS files if non-existent or empty.
@@ -50,6 +50,6 @@ fi
 
 # Symlink user.js to firefox-nordic-theme one.
 echo "Set configuration user.js file"
-ln -s chrome/firefox-nordic-theme/configuration/user.js ../user.js
+ln -sf chrome/firefox-nordic-theme/configuration/user.js ../user.js
 
 echo "Done."
