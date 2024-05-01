@@ -1,0 +1,48 @@
+BEGIN {
+  pc = 0
+}
+
+/\[Profile[0-9]+\]/ {
+  skip = 0
+  pc++
+  profile[pc,"path"] = ""
+  profile[pc,"name"] = ""
+  profile[pc,"is_relative"] = 0
+  profile[pc,"default"] = 0
+  next
+}
+
+/\[.*\]/ {
+  skip = 1
+  next
+}
+
+/Path/ {
+  if (skip == 0) {
+    profile[pc,"path"] = $2 
+  }
+}
+
+/Name/ {
+  if (skip == 0) {
+    profile[pc,"name"] = $2
+  }
+}
+
+/IsRelative/ {
+  if (skip == 0) {
+    profile[pc,"is_relative"] = $2 == 1
+  }
+}
+
+/Default/ {
+  if (skip == 0) {
+    profile[pc,"default"] = $2 == 1
+  }
+}
+
+END {
+  for (i = 1; i <= pc; i++) {
+    print profile[i,"path"] ":" profile[i,"name"] ":" profile[i,"is_relative"] ":" profile[i,"default"]
+  }
+}
